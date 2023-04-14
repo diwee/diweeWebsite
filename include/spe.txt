@@ -1,0 +1,4 @@
+<p><p align="center"><a href="nouvelles.php">Nouvelles</a><br />
+<a href="downloads.php">Telecharger</a><br />
+<a href="photos.php">Screenshots</a><br />
+<a href="liens.php">Liens</a></p>

@@ -1,0 +1,84 @@
+<?
+
+include("config.php");
+include("fonctions.php");
+
+// Suppression d'un download
+if (!empty($supprimer)) {
+	$reel = ($supprimer - 1);
+	$fichier = file("include/dl.txt");
+	$fichier2 = fopen("include/dl.txt", "w");
+	for ($i = 0; $i < count($fichier); $i++) {
+		if ($i != $reel) {
+			fputs($fichier2, $fichier[$i]);}}
+	fclose($fichier2);}
+
+// Creation d'un download
+elseif (!empty($dsn)) {
+	$contenu = liref("include/dl.txt");
+	$mettre = $contenu.stripSlashes($dsn)."|".stripSlashes($url)."\n";
+	$fichier = fopen("include/dl.txt", "w");
+	fputs($fichier, $mettre);
+	fclose($fichier);}
+
+// Création de l'index
+$fichier = file("include/dl.txt");
+
+$data = array();
+
+for ($i = 0; $i < count($fichier); $i++) {
+	$fichier[$i] = trim($fichier[$i]);
+	$data[$i] = explode("|", $fichier[$i]);
+	$data[$i][2] = $i;}
+
+sort($data);
+
+include("include/hpage.txt");
+htable("Admin", "100%");
+
+?>
+
+<p align="center"><b><? echo $nom[1]; ?></b></p>
+<p align="center">Cette page crée une connection avec un fichier sur un autre serveur (ou celui-ci).<br>
+Très pratique, quoi !</p>
+
+<table cellspacing="0" cellpadding="0" border="0" align="center">
+<?
+
+for ($i = 0; $i < count($data); $i++) {
+	echo "<tr>\n";
+	echo "<td><a href=\"".$data[$i][1]."\" target=\"blank\"><img src=\"graphics/dd.gif\" width=\"16\" height=\"16\" alt=\"Download (".$data[$i][1].")\" border=\"0\"></a></td>";
+	echo "<td><p><b>".$data[$i][0]."</b></p></td>\n";
+	echo "<td><p>[<a href=\"admin.php?pg=downloads&supprimer=".($data[$i][2] + 1)."\">supprimer</a>]</p></td>\n";
+	echo "</tr>\n";}
+
+?>
+</table>
+
+
+
+<form action="admin.php" method="POST">
+
+<p align="center"><b>Ajouter un fichier à télécharger</b></p>
+<p align="center"><b>Attention !</b> Ne pas utiliser le symbole <b>|</b> (pipe) dans les cases pour éviter des plantages.</p>
+
+<input type="hidden" name="pg" value="downloads">
+<table cellspacing="0" cellpadding="0" border="0" align="center">
+
+
+<tr><td align="center"><p align="center">Nom du fichier :</p></td></tr>
+<tr><td align="center"><p align="center"><input type="text" name="dsn" size="20">&nbsp;<input type="submit" value="Ajouter" style="font-size: xx-small;"></p></td></tr>
+<tr><td align="center"><p align="center">Adresse du fichier :</p></td></tr>
+<tr><td align="center"><p align="center"><input type="text" name="url" size="40" value="http://"></p></td></tr>
+
+</table>
+</form>
+
+<p align="center"><a href="admin.php">Retour admin</a> || <b><a href="admin.php?logout=1">DECONNECTION</a></b></p>
+
+<?
+
+btable();
+include("include/bpage.txt");
+
+?>

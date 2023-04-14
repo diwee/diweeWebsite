@@ -1,0 +1,92 @@
+<html>
+
+<head>
+<title><? echo $site[0]; ?></title>
+<style type="text/css">
+
+p {margin: 5px; font-size: <? echo $page[2]; ?>; font-family: <? echo $page[1]; ?>; color: <? echo $texte[0]; ?>;}
+
+.tbl1 {background-color: <? echo $titre[1]; ?>;}
+.tbl2 {background-color: <? echo $texte[1]; ?>;}
+.tbl2over {background-color: <? echo $texte[2]; ?>;}
+.titre {margin: 5px; font-size: <? echo $titre[3]; ?>; font-family: <? echo $titre[2]; ?>; color: <? echo $titre[0]; ?>;}
+.mtitre {margin: 5px; font-size: <? echo $page[2]; ?>; font-family: <? echo $page[1]; ?>; color: <? echo $titre[0]; ?>;}
+.bordure {background-color: <? echo $bordure[0]; ?>;}
+
+a {color: <? echo $lien[0]; ?>; text-decoration: none;}
+a:hover {color: <? echo $lien[1]; ?>; text-decoration: underline;}
+
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="<? echo $page[0]; ?>" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+
+
+
+<p><b><a href="<? echo $site[3]; ?>"><img src="images/<? echo $page[4]; ?>" border="0"></a></b></p>
+
+<table cellspacing="10" cellpadding="0" width="100%" border="0">
+<tr>
+
+<td valign="top">
+
+<!-- MENU POUR LES ARTICLES -->
+<?
+
+htable1($nom[4], "100%");
+
+$artfichier = file("include/articles/baseart.txt");
+sort($artfichier);
+
+for ($i = 0; $i < count($artfichier); $i++) {
+	$artfichier[$i] = trim($artfichier[$i]);
+	$pos = strrpos($artfichier[$i], "|");
+	$arttbl[$i][1] = substr($artfichier[$i], $pos+1);
+	$arttbl[$i][0] = substr($artfichier[$i], 0, $pos);}
+
+
+
+?>
+
+<p><?
+
+for ($i = 0; $i < count($arttbl); $i++) {
+	echo "&#149; <a href=\"articles.php?pg=".$arttbl[$i][1]."\">".$arttbl[$i][0]."</a><br>\n";}
+
+?></p>
+
+<p align="center"><a href="admin.php">Admin</a></p>
+
+<? btable(); ?>
+
+<p>&nbsp;</p>
+
+<?
+
+htable1($nom[6], "100%");
+
+?>
+
+<p align="center"><? echo stripSlashes($question); ?></p>
+
+<form action="sondage.php" method="POST" name="formV">
+<table cellspacing="0" cellpadding="0" border="0" align="center">
+<?
+
+for ($i = 0; $i < count($commun); $i++) {
+	echo "<tr><td><input type=\"radio\" name=\"choix\" value=\"".($i + 1)."\"></td><td><p>".$commun[$i][0]."</p></td></tr>\n";}
+
+?>
+</table>
+<p align="center"><a href="javascript:document.formV.submit();" onMouseOver="window.status = 'Clique ici pour achever ton vote et afficher les resultats'; return true;" onMouseOut="window.status = '';"><img src="graphics/vote.gif" border="0" width="43" height="19" alt="Vote !"></a><br>
+<a href="sondage.php">Résultats</a></p>
+</form>
+
+<? btable(); ?>
+
+<img src="graphics/trans.gif" height="1" width="150" border="0"></td>
+
+<td width="100%" valign="top">
+
+

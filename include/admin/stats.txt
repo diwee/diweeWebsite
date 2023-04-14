@@ -1,0 +1,42 @@
+<?
+
+include("config.php");
+include("fonctions.php");
+
+// Modifier le nombre de visites
+if ($visites == 1) {
+	$fichier = fopen("include/stats.txt", "w");
+	fputs($fichier, $numeric);
+	fclose($fichier);}
+
+// Nombre de pages vues
+$pgvues = liref("include/stats.txt");
+
+include("include/hpage.txt");
+htable("Admin", "100%");
+
+?>
+
+<p align="center"><b>Stats - Compteur de pages vues</b></p>
+
+<form action="admin.php" method="GET">
+<input type="hidden" name="pg" value="stats">
+<input type="hidden" name="visites" value="1">
+
+<table cellspacing="0" cellpadding="0" border="0" align="center">
+
+<tr><td align="center"><p align="center">Booster le compteur :</p></td></tr>
+<tr><td align="center"><p align="center"><input type="text" name="numeric" size="5" value="<? echo $pgvues; ?>">&nbsp;<input type="submit" value="Modifier" style="font-size: xx-small;"></p></td></tr>
+<tr><td align="center"><p align="center">[<a href="admin.php?pg=stats&visites=1&numeric=0">Remise à zéro</a>]</p></td></tr>
+
+</table>
+</form>
+
+<p align="center"><a href="admin.php">Retour admin</a> || <b><a href="admin.php?logout=1">DECONNECTION</a></b></p>
+
+<?
+
+btable();
+include("include/bpage.txt");
+
+?>

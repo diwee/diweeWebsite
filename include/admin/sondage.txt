@@ -1,0 +1,113 @@
+<?
+
+// VARIABLES PHP
+$img = "graphics/"; // Dossier des images
+$maxrep = 15; // Nombre de réponses
+$enr = "include/sonde.txt";
+
+if (!empty($q)) {
+
+	$mettre = "$q
+$r[0]|$c[0]#$v[0]
+$r[1]|$c[1]#$v[1]
+";
+	for ($i = 2; $i < count($r); $i++) {
+		if (!empty($r[$i])) {
+			$mettre = $mettre."$r[$i]|$c[$i]#$v[$i]
+";}}
+	$mettre = stripslashes($mettre);
+	$fichier = fopen($enr, "w+");
+	fputs($fichier, $mettre);
+	fclose($fichier);}
+
+// Tage SELECT pour selectionner la couleur
+function tagSelect($id) {
+	global $couleurs, $commun;
+	$com =  "<select name=\"c[$id]\">";
+	for ($x = 0; $x < count($couleurs); $x++) {
+		if ($commun[$id][1] == $couleurs[$x]) {
+			$sel = " selected";}
+		else {
+			$sel = "";}
+		$com = $com."<option value=\"$couleurs[$x]\"$sel>$couleurs[$x]</option>\n";}
+	$com = $com."</select>";
+	return $com;}
+
+$commun = array(); // tableau des fichiers
+$total = 0; // Total des votes
+$enr = "include/sonde.txt"; // Fichier enregistrable
+
+$contenu = file($enr);
+$lignes = count($contenu);
+
+// Extrait la question du sondage
+$question = $contenu[0];
+$question = trim($question);
+
+// Extrait les reponses, la couleur de la bande, le nombre de votes
+for ($i = 1; $i < $lignes; $i++) {
+	$num = $i-1;
+	$pos1 = strrpos($contenu[$i], "|");
+	$pos2 = strrpos($contenu[$i], "#");
+	$commun[$num][0] = substr($contenu[$i], 0, $pos1); // Reponse
+	$commun[$num][1] = substr($contenu[$i], $pos1+1 , $pos2-$pos1-1); // Couleur
+	$commun[$num][2] =  substr($contenu[$i], $pos2+1); // Nombre de votes
+	$commun[$num][2] = trim($commun[$num][2]);
+	$total = $total + $commun[$num][2]; // Total des votes
+}
+
+// Pourcentage de votants
+for ($i = 0; $i < count($commun); $i++) {
+	if ($commun[$i][2] != 0) { // Votes en pourcentage
+		$commun[$i][3] = round($commun[$i][2]/$total*10000) /100;}
+	else {
+		$commun[$i][3] = 0;}
+}
+
+include("config.php");
+include("fonctions.php");
+
+include("include/hpage.txt");
+htable("Admin", "100%");
+
+?>
+
+<p align="center"><b>Sondage</b></p>
+
+<p align="center">Gère un sondage de 15 réponses !</p>
+
+<form action="admin.php" method="POST">
+<input type="hidden" name="mdp" value="<? echo $mdp; ?>">
+<input type="hidden" name="pg" value="sondage">
+<table cellpadding="5" cellspacing="0" border="0" align="center">
+<tr><td colspan="4" align="center"><p align="center">Question : <input type="text" name="q" value="<? echo $question; ?>" size="40"></p></td></tr>
+<tr><td><p>&nbsp;</p></td><td><p>Votes</p></td><td><p>Réponses</p></td><td><p>Couleur</p></td></tr>
+
+<?
+
+// CREATION DU FORMULAIRE
+for ($i = 0; $i < $maxrep; $i++) {
+echo "<tr>\n";
+echo "<td nowrap><p>Réponse ".($i+1)." : </p></td>\n";
+echo "<td><input type=\"text\" name=\"v[$i]\" size=\"2\" value=\"".$commun[$i][2]."\"></td>\n";
+echo "<td><input type=\"text\" name=\"r[$i]\" size=\"25\" value=\"".$commun[$i][0]."\"></td>\n";
+echo "<td>".tagSelect($i)."</td>";
+echo "</tr>\n";
+}
+
+?>
+
+<tr><td colspan="4" align="center"><input type="submit" value="Enregistrer"></td></tr>
+
+</table>
+
+</form>
+
+<p align="center"><a href="admin.php">Retour admin</a> || <b><a href="admin.php?logout=1">DECONNECTION</a></b></p>
+
+<?
+
+btable();
+include("include/bpage.txt");
+
+?>

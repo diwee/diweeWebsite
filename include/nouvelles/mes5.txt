@@ -1,0 +1,9 @@
+<?
+
+$ntitre = "Version 1.002 test";
+$ndate = "17/01/2004 @ 19:37";
+$nauteur = "Diwee";
+$nemail = "diwee2002@hotmail.com";
+$ntexte = "Une petite version bourrée de bugs & qlq petites updates (voir readme)<img src=\"graphics/langue.gif\" border=\"0\">";
+
+?>

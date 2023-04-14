@@ -1,0 +1,60 @@
+
+</td>
+
+<td valign="top">
+
+<!-- MENU "SPECIAL" -->
+<? htable1($nom[5], "100%"); ?>
+
+<p><? include("include/spe.txt"); ?></p>
+
+<? btable(); ?>
+
+<p>&nbsp;</p>
+
+<!-- MENU "SPECIAL" -->
+<? htable1("Infos webmaster/site", "100%"); ?>
+
+<p>Webmaster : <? echo $user[0]; ?></p>
+<p>Email : <a href="mailto:<? echo $user[1]; ?>"><? echo $user[1]; ?></a></p>
+
+<?
+
+if (!empty($user[2])) {
+	echo "<p align=\"center\">ICQ <b>#".$user[2]."</b> :<br><img src=\"http://online.mirabilis.com/scripts/online.dll?icq=".$user[2]."&img=1\" border=\"0\" alt=\"ICQ\"></p>";}
+
+?>
+
+<p align="center">Ce site est compatible avec les navigateurs de version 4 minimum.</p>
+
+<?
+
+// Visite supplémentaire !
+if ($novisites != 1) {
+	$preced = liref("include/stats.txt");
+	$fichier = fopen("include/stats.txt", "w");
+	fputs($fichier, ($preced + 1));
+	fclose($fichier);
+	echo "<p align=\"center\"><b>".($preced + 1)."</b> pages vues !</p>";
+}
+
+?>
+
+<? btable(); ?>
+
+
+
+<img src="graphics/trans.gif" height="1" width="150" border="0"></td>
+
+</tr>
+</table>
+
+<?
+
+include("include/foot.txt");
+
+?>
+
+</body>
+
+</html>

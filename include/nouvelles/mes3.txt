@@ -1,0 +1,17 @@
+<?
+
+$ntitre = "Patience...";
+$ndate = "14/01/2004 @ 19:52";
+$nauteur = "Diwee";
+$nemail = "diwee2002@hotmail.com";
+$ntexte = "voici les prochaines amélioration (Dreamcast):<br />
+<br />
+- Programme entierement Skinable avec possiblité d\'agrandir vos image comme bon vous semble...<br />
+- améliorations du jeux ( plus tactic avec des feintes etc... )<br />
+- possibilité de choix ntsc/pal/VGA<br />
+- meilleure définition<br />
+- version SBI, elf bin<br />
+- score & tableau des meilleurs scores sur le net !<br />
+- -de bugs !";
+
+?>

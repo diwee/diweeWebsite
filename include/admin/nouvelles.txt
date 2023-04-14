@@ -1,0 +1,201 @@
+<?
+
+include("config.php");
+include("fonctions.php");
+
+include("include/hpage.txt");
+
+htable("Admin", "100%");
+
+?>
+
+<script language="JavaScript">
+
+function popUp(num) {
+	var adresse = "npopup.php?id=" + num;
+	window.open(adresse, "popup", "width=400, height=400, scrollbars=yes, toolbar=no");}
+
+</script>
+<?
+
+// Variables
+$dbbase = "include/nouvelles/";
+$database = "include/nouvelles/dbn.txt";
+$count = "include/nouvelles/num.txt";
+$monmail = $user[1];
+$monnom = $user[0];
+$baseimgs = "graphics/";
+
+
+/***************************************************** ACTIONS *********************************************************/
+
+// Supression d'une news
+if (!empty($supprimer)) {
+	$fichier = file($database);
+	$fichier2 = fopen($database, "w+");
+	$reel = ($supprimer - 1);
+		for ($i = 0; $i < count($fichier); $i++) {
+			$fichier[$i] = trim($fichier[$i]);
+			$nouvelle[$i] = explode("|", $fichier[$i]);
+			if ($reel == $i) {
+				unlink($dbbase.$nouvelle[$reel][0]);}
+			else {
+				fputs($fichier2, $fichier[$i]."\n");}
+	}
+	fclose($fichier2);
+}
+
+// Changer le status
+elseif ($activer == 1 || $activer == 2) {
+	$fichier = file($database);
+	$format = $fichier[$id];
+	$format = trim($format);
+	$nouvelle = explode("|", $format);
+
+	if ($activer == 1) {
+		$fichier[$id] = $nouvelle[0]."|active\n";}
+	elseif ($activer == 2) {
+		$fichier[$id] = $nouvelle[0]."|inactive\n";}
+
+	$fi = fopen($database, "w+");
+		for ($i = 0; $i < count($fichier); $i++) {
+			fputs($fi, $fichier[$i]);}
+	fclose($fi);
+}
+
+
+
+// Ecrire un message
+elseif ($ajn == 1) {
+
+	// Dectection de l'ID de la prochaine news
+	$fichier = fopen($count, "r");
+	$id = fread($fichier, filesize($count));
+	$id = $id + 1;
+	fclose($fichier);
+
+	// Variables
+	$nommes = "mes".$id.".txt";
+	$date = date("d/m/Y");
+	$heure = date("H:i");
+
+	// Traitement
+	$txt = nl2br($txt);
+	$txt = souriez($txt);
+	$ti = souriez($ti);
+
+	// Texte a inclure dans le fichier
+	$src = "<?
+
+\$ntitre = \"$ti\";
+\$ndate = \"$date @ $heure\";
+\$nauteur = \"$monnom\";
+\$nemail = \"$monmail\";
+\$ntexte = \"$txt\";
+
+?>";
+
+	// Augmenter le nombre d'index.
+	$fichier = fopen($count, "w+");
+	fputs($fichier, $id);
+	fclose($fichier);
+
+	// Enregistrer la newz.
+	$fichier = fopen($dbbase.$nommes, "w+");
+	fputs($fichier, $src);
+	fclose($fichier);
+
+	// Ouvre la base de donnees
+	$db = file($database);
+
+	// Actualise la base de donnees
+	$fichier = fopen($database, "w+");
+	fputs($fichier, $nommes."|active\n");
+	fputs($fichier, implode("", $db));
+	fclose($fichier);
+
+}
+
+
+/******************************* EXTRACTION DES VALEURS DE LA DB ****************************************/
+
+// Retire les anciennes variables.
+unset($fichier, $fichier2, $i, $nouvelle);
+
+// Ouverture de la base de donnees
+$fichier = file($database);
+
+// Nettoyage des textes
+for ($i = 0; $i < count($fichier); $i++) {
+	$fichier[$i] = trim($fichier[$i]);}
+
+// Detection du statut
+for ($i = 0; $i < count($fichier); $i++) {
+$nouvelle[$i] = explode("|", $fichier[$i]);
+	if (count($nouvelle[$i]) < 2) {
+		$nouvelle[$i][1] = "active";}}
+
+
+?>
+
+<p align="center"><b>Nouvelles (myNewz 2.0 pour PHORTAIL)</b></p>
+
+<p align="center"><a href="admin.php?pg=nouvelles">Gérer les messages</a> || <a href="admin.php?pg=nouvelles&ecrire=1">Ecrire une newz</a></p>
+
+<?
+
+if (empty($ecrire)) {
+	for ($i = 0; $i < count($nouvelle); $i++) {
+		if (file_exists($dbbase.$nouvelle[$i][0])) {
+			if ($nouvelle[$i][1] == "active") {
+				$faire[0] = "2";
+				$faire[1] = "Désactiver";}
+			else {
+				$faire[0] = "1";
+				$faire[1] = "Activer";}
+			include($dbbase.$nouvelle[$i][0]);
+			echo "<p><b>".stripSlashes($ntitre)."</b> [<a href=\"admin.php?pg=nouvelles&supprimer=".($i + 1)."\">Supprimer</a>] [<a href=\"admin.php?pg=nouvelles&activer=".$faire[0]."&id=".$i."\">".$faire[1]."</a>] [<a href=\"javascript:popUp(".($i + 1).")\">Lire le message</a>]</p>";}}}
+
+elseif ($ecrire == 1) {
+?>
+
+<form action="admin.php" method="POST">
+<input type="hidden" name="ajn" value="1">
+<input type="hidden" name="pg" value="nouvelles">
+
+<table cellspacing="0" cellpadding="0" border="0" align="center">
+<tr><td align="center"><p align="center">Titre de la nouvelle :</p></td></tr>
+<tr><td align="center"><p align="center"><input type="text" name="ti" size="50"></p></td></tr>
+<tr><td align="center"><p align="center">Le message :</p></td></tr>
+<tr><td align="center"><p align="center"><textarea cols="40" rows="10" name="txt"></textarea></p></td></tr>
+<tr><td align="center"><p align="center"><input type="submit" value="OK"></p></td></tr>
+</table>
+
+</form>
+
+<table cellspacing="0" cellpadding="0" border="0" align="center">
+<?
+echo "<tr>\n";
+for ($i = 0; $i < count($souriez); $i++) {
+echo "<td align=\"center\"><p align=\"center\">".$souriez[$i][0]."</p></td>\n";}
+echo "</tr>\n";
+
+echo "<tr>\n";
+for ($i = 0; $i < count($souriez); $i++) {
+echo "<td align=\"center\"><img src=\"".$baseimgs.$souriez[$i][1]."\" border=\"0\" alt=\"".$souriez[$i][0]."\"></td>\n";}
+echo "</tr>\n";
+?>
+</table>
+
+<?
+}
+?>
+
+<p align="center"><a href="admin.php">Retour admin</a> || <b><a href="admin.php?logout=1">DECONNECTION</a></b></p>
+
+<?
+
+btable();
+include("include/bpage.txt");
+
+?>

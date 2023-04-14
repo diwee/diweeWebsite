@@ -1,0 +1,42 @@
+<?
+
+include("config.php");
+include("fonctions.php");
+
+if (!empty($txt)) {
+	$txt = stripSlashes($txt);
+	$txt = nl2br($txt);
+
+	$fichier = fopen("include/homepage.txt", "w+");
+	fputs($fichier, $txt);
+	fclose($fichier);}
+
+$hp = liref("include/homepage.txt");
+$hp = str_replace("<br>", "", $hp);
+
+include("include/hpage.txt");
+htable("Admin", "100%");
+
+?>
+
+<p align="center"><b>Homepage - Changer le texte d'accueil</b></p>
+<p align="center">Quand les visiteurs arriveront sur la page d'accueil, c'est ce texte qu'ils verront.</p>
+
+<form action="admin.php" method="POST">
+<input type="hidden" name="pg" value="homepage">
+<table cellspacing="0" cellpadding="0" align="center">
+
+<tr><td nowrap align="center"><p align="center"><textarea cols="45" rows="12" name="txt"><? echo $hp; ?></textarea></p></td></tr>
+<tr><td nowrap align="center"><p align="center"><input type="submit" value="Enregistrer"> <input type="Reset" value="Annuler"></p></td></tr>
+
+</table>
+</form>
+
+<p align="center"><a href="admin.php">Retour admin</a> || <b><a href="admin.php?logout=1">DECONNECTION</a></b></p>
+
+<?
+
+btable();
+include("include/bpage.txt");
+
+?>

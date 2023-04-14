@@ -1,0 +1,82 @@
+<?
+
+include("config.php");
+include("fonctions.php");
+
+// Suppression d'un lien
+if (!empty($supprimer)) {
+	$reel = ($supprimer - 1);
+	$fichier = file("include/liens.txt");
+	$fichier2 = fopen("include/liens.txt", "w");
+	for ($i = 0; $i < count($fichier); $i++) {
+		if ($i != $reel) {
+			fputs($fichier2, $fichier[$i]);}}
+	fclose($fichier2);}
+
+// Creation d'un download
+elseif (!empty($dsn)) {
+	$contenu = liref("include/liens.txt");
+	$mettre = $contenu.stripSlashes($dsn)."|".stripSlashes($url)."\n";
+	$fichier = fopen("include/liens.txt", "w");
+	fputs($fichier, $mettre);
+	fclose($fichier);}
+
+// Création de l'index
+$fichier = file("include/liens.txt");
+
+$data = array();
+
+for ($i = 0; $i < count($fichier); $i++) {
+	$fichier[$i] = trim($fichier[$i]);
+	$data[$i] = explode("|", $fichier[$i]);
+	$data[$i][2] = $i;}
+
+sort($data);
+
+include("include/hpage.txt");
+htable("Admin", "100%");
+
+?>
+
+<p align="center"><b><? echo $nom[3]; ?></b></p>
+<p align="center">Pas d'explication, tu vois très bien ce que c'est :-)~</p>
+
+<table cellspacing="0" cellpadding="0" border="0" align="center">
+<?
+
+for ($i = 0; $i < count($data); $i++) {
+	echo "<tr>\n";
+	echo "<td><p><b><a href=\"".$data[$i][1]."\" target=\"_blank\">".$data[$i][0]."</a></b></p></td>\n";
+	echo "<td><p>[<a href=\"admin.php?pg=liens&supprimer=".($data[$i][2] + 1)."\">supprimer</a>]</p></td>\n";
+	echo "</tr>\n";}
+
+?>
+</table>
+
+
+
+<form action="admin.php" method="POST">
+
+<p align="center"><b>Ajouter un lien</b></p>
+<p align="center"><b>Attention !</b> Ne pas utiliser le symbole <b>|</b> (pipe) dans les cases pour éviter des plantages.</p>
+
+<input type="hidden" name="pg" value="liens">
+<table cellspacing="0" cellpadding="0" border="0" align="center">
+
+
+<tr><td align="center"><p align="center">Nom du site :</p></td></tr>
+<tr><td align="center"><p align="center"><input type="text" name="dsn" size="20">&nbsp;<input type="submit" value="Ajouter" style="font-size: xx-small;"></p></td></tr>
+<tr><td align="center"><p align="center">Adresse du site :</p></td></tr>
+<tr><td align="center"><p align="center"><input type="text" name="url" size="40" value="http://"></p></td></tr>
+
+</table>
+</form>
+
+<p align="center"><a href="admin.php">Retour admin</a> || <b><a href="admin.php?logout=1">DECONNECTION</a></b></p>
+
+<?
+
+btable();
+include("include/bpage.txt");
+
+?>

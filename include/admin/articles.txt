@@ -1,0 +1,202 @@
+<?
+
+include("config.php");
+include("fonctions.php");
+
+$baseart = "include/articles/baseart.txt";
+
+// Effacer un article
+if (!empty($supprimer)) {
+
+	$id = ($supprimer - 1);
+
+	$articles = file($baseart);
+	$pos = strrpos($articles[$id], "|");
+	$adr = substr($articles[$id], $pos+1);
+	$adr = trim($adr);
+	$tit = substr($articles[$id], 0, $pos);
+
+	unlink("include/articles/".$adr.".txt");
+
+	$fichier = fopen($baseart, "w+");
+	for ($i = 0; $i < count($articles); $i++) {
+		if ($i == $id) {continue;}
+		fputs($fichier, $articles[$i]);}
+	fclose($fichier);
+}
+
+// Ecrire un article
+elseif ($ajouter == 1) {
+
+	// Recuperation du nb d'articles
+	$num = liref("include/articles/artnum.txt");
+	$num = $num + 1;
+
+	// Enregistrement du nb d'articles
+	$fichier = fopen("include/articles/artnum.txt", "w+");
+	fputs($fichier, $num);
+	fclose($fichier);
+
+	// Lecture de la base d'articles
+	$cont = liref($baseart, "r+");
+
+	// Creation des variables
+	$titre1 = stripSlashes($titre1);
+	$entree_base = ($titre1."|art".$num);
+
+	// Enregistrement de la base
+	$fichier = fopen($baseart, "w+");
+	fputs($fichier, $entree_base."\n".$cont);
+	fclose($fichier);
+
+	// Enregistrement de l'article
+	$titre1 = addSlashes($titre1);
+	$date = date("d/m/Y");
+	$heure = date("H:i");
+	$date_article = "$date @ $heure";
+	$contenu1 = nl2br($contenu1);
+
+	$rec = "<?
+
+\$titre_article = \"$titre1\";
+\$date_article =  \"$date_article\";
+\$contenu_article = \"$contenu1\";
+\$cat_article = \"$cat1\";
+
+?>";
+
+	$fichier = fopen("include/articles/art".$num.".txt", "w+");
+	fputs($fichier, $rec);
+	fclose($fichier);
+
+}
+
+elseif ($modifier == 1) {
+
+$date = date("d/m/Y");
+$heure = date("H:i");
+$date_article = "$date @ $heure";
+
+$reel = ($id - 1);
+$fichier = file($baseart);
+$fichier[$reel] = trim($fichier[$reel]);
+
+$pos = strrpos($fichier[$reel], "|");
+$adr = substr($fichier[$reel], $pos+1);
+
+$mt = stripSlashes($titre1);
+$fichier[$reel] = $mt."|".$adr."\n";
+
+$fd = fopen($baseart, "w+");
+	for ($i = 0; $i < count($fichier); $i++) {
+		fputs($fd, $fichier[$i]);}
+fclose($fd);
+
+$contenu1 = nl2br($contenu1);
+
+$rec = "<?
+
+\$titre_article = \"$titre1\";
+\$date_article =  \"$date_article\";
+\$contenu_article = \"$contenu1\";
+\$cat_article = \"$cat1\";
+
+?>";
+
+$fd2 = fopen("include/articles/".$adr.".txt", "w+");
+fputs($fd2, $rec);
+fclose($fd2);
+
+}
+
+include("include/hpage.txt");
+htable("Admin", "100%");
+
+?>
+
+<p align="center"><b>Gérer les articles</b></p>
+
+<p align="center"><a href="admin.php?pg=articles">Tous les articles</a> || <a href="admin.php?pg=articles&form=1">Ecrire un article</a></p>
+
+<?
+
+if (empty($form)) {
+	$articles = file($baseart);
+	for ($i = 0; $i < count($articles); $i++) {
+		$pos = strrpos($articles[$i], "|");
+		$adr = substr($articles[$i], $pos+1);
+		$adr = trim($adr);
+		$tit = substr($articles[$i], 0, $pos);
+		echo "<p align=\"center\">".$tit." [<a href=\"admin.php?pg=articles&supprimer=".($i + 1)."\">supprimer</a>] [<a href=\"admin.php?pg=articles&form=2&id=".($i + 1)."\">modifier</a>]</p>\n";}
+}
+
+elseif ($form == 1) {
+
+?>
+
+<form action="admin.php" method="POST">
+<input type="hidden" name="ajouter" value="1">
+<input type="hidden" name="pg" value="articles">
+
+<table cellspacing="0" cellpadding="0" border="0" align="center">
+<tr><td align="center"><p align="center">Titre de l'article :</p></td></tr>
+<tr><td align="center"><p align="center"><input type="text" name="titre1" size="50"></p></td></tr>
+<tr><td align="center"><p align="center">Catégorie de l'article :</p></td></tr>
+<tr><td align="center"><p align="center"><input type="text" name="cat1" size="25"></p></td></tr>
+<tr><td align="center"><p align="center">Ecris ton article :</p></td></tr>
+<tr><td align="center"><p align="center"><textarea cols="40" rows="10" name="contenu1"></textarea></p></td></tr>
+<tr><td align="center"><p align="center"><input type="submit" value="OK"></p></td></tr>
+</table>
+
+</form>
+
+<?
+
+}
+elseif ($form == 2) {
+
+$reel = ($id - 1);
+$fichier = file($baseart);
+$fichier[$reel] = trim($fichier[$reel]);
+
+$pos = strrpos($fichier[$reel], "|");
+$adr = substr($fichier[$reel], $pos+1);
+$tit = substr($fichier[$i], 0, $pos);
+
+@include("include/articles/".$adr.".txt");
+
+$contenu_article = str_replace("<br>", "", $contenu_article);
+
+?>
+
+<form action="admin.php" method="POST">
+<input type="hidden" name="pg" value="articles">
+<input type="hidden" name="modifier" value="1">
+<input type="hidden" name="form" value="2">
+<input type="hidden" name="id" value="<? echo $id; ?>">
+
+<table cellspacing="0" cellpadding="0" border="0" align="center">
+<tr><td align="center"><p align="center">Titre de l'article :</p></td></tr>
+<tr><td align="center"><p align="center"><input type="text" name="titre1" size="50" value="<? echo stripSlashes($titre_article); ?>"></p></td></tr>
+<tr><td align="center"><p align="center">Catégorie de l'article :</p></td></tr>
+<tr><td align="center"><p align="center"><input type="text" name="cat1" size="25" value="<? echo stripSlashes($cat_article); ?>"></p></td></tr>
+<tr><td align="center"><p align="center">Ecris ton article :</p></td></tr>
+<tr><td align="center"><p align="center"><textarea cols="40" rows="10" name="contenu1"><? echo stripSlashes($contenu_article); ?></textarea></p></td></tr>
+<tr><td align="center"><p align="center"><input type="submit" value="OK"></p></td></tr>
+</table>
+
+</form>
+
+
+<?
+}
+?>
+
+<p align="center"><a href="admin.php">Retour admin</a> || <b><a href="admin.php?logout=1">DECONNECTION</a></b></p>
+
+<?
+
+btable();
+include("include/bpage.txt");
+
+?>

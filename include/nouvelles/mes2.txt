@@ -1,0 +1,9 @@
+<?
+
+$ntitre = "Smartball";
+$ndate = "02/01/2004 @ 13:54";
+$nauteur = "Diwee";
+$nemail = "diwee2002@hotmail.com";
+$ntexte = "La deuxiéme version de SmartBall est sortie sur Dreamcast et PC ! Have fun !";
+
+?>

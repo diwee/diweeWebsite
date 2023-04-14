@@ -1,0 +1,80 @@
+<html>
+	
+<head>
+		
+<title>°¤ README - PHORTAIL 1.2.1 ¤°</title>
+	
+<style type="text/css">
+<!--
+body {  background-color: #5A6B9C; font-family: Arial, Helvetica, sans-serif; color: #FFFFFF; font-size: 12px}
+p {  font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #FFFFFF; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px}
+h1 {  font-family: Arial, Helvetica, sans-serif; font-size: 24px; color: #8C9CDE; text-decoration: underline}
+a {  color: #FFFF99; text-decoration: none}
+a:hover {  color: #FFFF00; text-decoration: underline}
+-->
+</style>
+</head>
+	<body>
+
+	
+<h1 align="center">PHORTAIL 1.2.1 - Doc officielle</h1>
+<p align="center"><b>Attention doc officielle s'il vous pla&icirc;t !<br>
+PHORTAIL, le site facile sans base de donn&eacute;es.</b></p>
+<p align="right"><a href="http://www.nskate.fr.st">Nitro Skateboarding (NSKATE) : le site du cr&eacute;ateur</a></p>
+<p>PHORTAIL int&egrave;gre la <u>technologie</u> myNewz !</p>
+<p><b><u>SOMMAIRE</u></b><br>
+  - <a href="#install">Installation</a><br>
+  - <a href="#compat">Compatibilit&eacute; avec PHORTAIL 1.1</a><br>
+  - <a href="#creer">Cr&eacute;er des articles, ajouter des images</a><br>
+  - <a href="#fonc">Fonctionnement</a><br>
+  - <a href="#admin">Administrer le site</a><br>
+  - <a href="#bugs">Bugs Report</a> <br>
+  - <a href="#comp">Compatibilit&eacute;</a><br>
+  - <a href="#lic">Licence</a><br>
+  - <a href="#croisade">La croisade </a></p>
+<p><b><u><a name="install"></a>INSTALLATION</u></b><br>
+  - D&eacute;compresse le ZIP avec n'importe quoi dans un seul dossier.<br>
+  - F&eacute;licitation, tu viens d'installer PHORTAIL avec succ&egrave;s !<br>
+  - <b>Attention !</b> Pour que le script fonctionne, aucun des fichiers ne doit 
+  &ecirc;tre en lecture ou &eacute;criture seule. Tu ne dois renommer, ni supprimer 
+  manuellement les fichiers pr&eacute;sents.<br>
+  - Balance tous les fichiers sur le FTP de ton site avec un simple client FTP 
+  (IE, Netscape, CuteFTP, etc). Tu peux bien s&ucirc;r utiliser PHORTAIL sur un 
+  serveur local (PHORTAIL a &eacute;t&eacute; cr&eacute;&eacute; sur un serveur 
+  QuickPHP 1.0 Apache avec PHP 4.0).</p>
+<p><b><u><a name="compat"></a>COMPATIBILITE AVEC PHORTAIL 1.1</u></b><br>
+  Tout doit &ecirc;tre supprimer. La structure du script et le temps ne me permettent 
+  pas de faire un utilitaire d'importation. Toutefois il est possible d'importer 
+  les articles. Sur PHORTAIL 1.1. Sur PHORTAIL 1.1, prend les fichiers du dossier 
+  <b>/pages</b> et copie les fichiers <b>artbase.txt</b>, <b>artnum.txt</b>, et 
+  tous les fichiers commen&ccedil;ant par <b>art</b> (art5.txt par exemple). Met 
+  les sur PHORTAIL 1.2 dans le dossier <b>/include/articles/</b>.</p>
+<p><b><u><a name="creer"></a>CREER DES ARTICLES, AJOUTER DES IMAGES</u></b><br>
+Comme le code HTML est autoris&eacute;, il est possible d'utiliser tout les tags que l'on veut (IMG, A ...). Il faut savoir que les textes tap&eacute;s seront entour&eacute;s des balises &quot;&lt;p&gt;&lt;/p&gt;&quot;.<br>
+Pour mettre une image servant de logo
+ou de fond d'&eacute;cran il faut la transf&eacute;rer dans le dossier &quot;images&quot;. Elle appara&icirc;tra ainsi dans le formulaire du logo et du fond d'&eacute;cran quand on configure le les couleurs et les noms. Pour les photos, ils faut les placer dans le dossier &quot;photos&quot;. <b>TOUT CECI EST OBLIGATOIRE !</b></p>
+<p><b><u><a name="fonc"></a>FONCTONNEMENT</u></b><br>
+- Les infos envoy&eacute;es sur PHORTAIL sont enregistr&eacute;es dans des fichiers texte dans le dossier include et tous les sous-dossiers. C'est pour cette raison que le caract&egrave;re <b>|</b> (pipe) sera interdit dans certains formulaires (pour &eacute;vit&eacute; une erreur d'interpr&eacute;tation des fichiers texte).<br>
+  - Le fichier &quot;mdp.php&quot; contient le mot de passe du site. Il ne doit 
+  en aucun cas &ecirc;tre visible pour les utilisateurs.</p>
+<p><b><u><a name="admin"></a>ADMINISTRER LE SITE</u></b><br>
+  Il faut se connecter avec le fichier &quot;admin.php&quot;. Le mot de passe 
+  par d&eacute;faut est &quot;pass&quot;. A partir de l&agrave;, tout est personnalisable. 
+  Je conseille (et m&ecirc;me plus, j'oblige ;-) les utilisateurs &agrave; changer 
+  de mot de passe pour des raisons de s&eacute;curit&eacute; &eacute;videntes.<br>
+  <b>Pour changer le mot de passe, ouvre le fichier mdp.php et modifie la valeur 
+  entre les guillemets (les guillemets sont nessessaires).</b></p>
+<p><b><u><a name="bugs"></a>BUGS REPORT</u></b><br>
+Ce script a &eacute;t&eacute; test&eacute; sur Apache + PHP4 et Chez.com. Il n'y a aucune raison que le script plante. Mais si vous vous &ecirc;tes procur&eacute; une version autre que celle distribu&eacute; sur <a href="http://www.nkate.fr.st">NSKATE</a>, et que des modifications y ont &eacute;t&eacute; apport&eacute;es, il est possible qu'il y ait quelques plantages si la personne qui a modifi&eacute; le script n'a pas bien v&eacute;rifi&eacute; sa version. Pour des questions, utilise le forum de mon site.</p>
+<p><b><u><a name="comp"></a>COMPATIBILITE</u></b><br>
+-PHORTAIL s'affiche correctement sous Internet Explorer 4 et 5, Netscape 4.XX et 6, et Opera.<br>
+- Pour bien afficher le site les navigateurs doivent bien traiter les feuilles de style CSS et le HTML 4.
+</p>
+<p><b><u><a name="lic"></a>LICENCE</u></b><br>
+- PHORTAIL est distribu&eacute; gratuitement, m&ecirc;me si certains mauvais esprits (qui se reconna&icirc;tront) me conseillent de le vendre (je ne suis ni Bill Gate$, ni fou). Tu peux le modifier, le jeter, le supprimer de ton disque dur (non !!!), etc ...<br>
+- Tiens-moi tout de m&ecirc;me au courant des modifications que tu apportes au script !<br>
+- JE NE SUIS EN AUCUN CAS RESPONSABLE DES DIFFERENTS PROBLEMES QUI POURRAIENT RESULTER DE L'UTILISATION DE CE SCRIPT.</p>
+<p><b><u><a name="croisade"></a>LA CROISADE</u></b><br>
+PHORTAIL doit permettre &agrave; tout le monde de cr&eacute;er son propre site ! C'est la raison d'&ecirc;tre de ce script. Etre un d&eacute;vellopeur PHP n'est pas n&eacute;cessaire pour installer le script. Il suffit juste de le balancer sur l'h&eacute;bergeur pour en profiter !</p>
+</body>
+</html>

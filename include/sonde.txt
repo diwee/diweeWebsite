@@ -1,0 +1,3 @@
+Possedez vous une Dreamcast ?
+Oui|jaune#96
+Non|bleu#8

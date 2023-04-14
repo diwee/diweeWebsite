@@ -1,0 +1,9 @@
+<?
+
+$ntitre = "Ouverture du site";
+$ndate = "01/01/2004 @ 21:40";
+$nauteur = "Diwee";
+$nemail = "diwee2002@hotmail.com";
+$ntexte = "Ce site à pour vocation de vous faire découvrire mes application PC/Dreamcast. Enjoy !";
+
+?>

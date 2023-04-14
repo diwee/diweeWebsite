@@ -1,0 +1,163 @@
+<?
+
+if ($enregistrer == 1) {
+
+	$mettre = "<?
+
+\$site[0] = \"$site[0]\"; // Titre du site
+\$site[1] = \"$site[1]\"; // Description du site
+\$site[2] = \"$site[2]\"; // Mots-clés
+\$site[3] = \"$site[3]\"; // URL du site
+\$site[4] = \"$site[4]\"; // Nouvelles sur la page d'accueil
+\$site[5] = \"$site[5]\"; // Activation des newz ou pas
+
+\$user[0] = \"$user[0]\"; // Webmaster
+\$user[1] = \"$user[1]\"; // Email du responsable du site
+\$user[2] = \"$user[2]\"; // # ICQ
+
+\$nom[0] = \"$nom[0]\"; // Nom de l'accueil
+\$nom[1] = \"$nom[1]\"; // Page des telechargements
+\$nom[2] = \"$nom[2]\"; // Page des images
+\$nom[3] = \"$nom[3]\"; // Page des liens
+\$nom[4] = \"$nom[4]\"; // Colonne des articles
+\$nom[5] = \"$nom[5]\"; // Colonne speciale
+\$nom[6] = \"$nom[6]\"; // Sondage
+
+\$page[0] = \"$page[0]\"; // Arriere-plan de la page
+\$page[1] = \"$page[1]\"; // Police du site
+\$page[2] = \"$page[2]\"; // Taille des textes du site
+\$page[3] = \"$page[3]\"; // Image de fond
+\$page[4] = \"$page[4]\"; // Logo
+
+\$titre[0] = \"$titre[0]\"; // Couleur du titre
+\$titre[1] = \"$titre[1]\"; // Arriere-plan du titre
+\$titre[2] = \"$titre[2]\"; // Police des titres
+\$titre[3] = \"$titre[3]\"; // Taille des titres
+
+\$texte[0] = \"$texte[0]\"; // Couleur des textes dans les cadres
+\$texte[1] = \"$texte[1]\"; // Arriere-plan des textes dans les cadres OFF
+\$texte[2] = \"$texte[2]\"; // Arriere-plan des textes dans les cadres ON
+
+\$bordure[0] = \"$bordure[0]\"; // Couleur des bordures
+
+\$lien[0] = \"$lien[0]\"; // Lien OFF
+\$lien[1] = \"$lien[1]\"; // Lien ON
+
+?>";
+
+	$fichier = fopen("config.php", "w+");
+	fputs($fichier, $mettre);
+	fclose($fichier);
+
+}
+
+
+include("config.php");
+include("fonctions.php");
+
+// Creation de l'index des images
+$img = array();
+$dossier = opendir("images/");
+while ($fichier = readdir($dossier)) {
+	if (is_file("images/".$fichier)) {
+		$img[] = $fichier;}}
+closedir($dossier);
+sort($img);
+
+include("include/hpage.txt");
+htable("Admin", "100%");
+
+?>
+
+<p align="center"><b>Changer les options</b></p>
+
+<p align="center">Cette (énorme) page permet de modifier les couleurs, l'allure les images employées sur ce site. Il est possible de mettre des tags HTML.<br>
+<b>Attention !</b> Tout changement est irréversible !</p>
+
+<p align="center">Si le mot de passe est modifié, la page se chargera correctement la première fois. Puis une réidentification sera demandée.</p>
+
+<p align="center">Pour les taille de textes, mettre après le chiffre <b>px</b> pour indiquer à Netscape l'unité.</p>
+
+<form action="admin.php" method="POST">
+<input type="hidden" name="pg" value="config">
+<input type="hidden" name="enregistrer" value="1">
+<table cellspacing="0" cellpadding="2" border="0" align="center" width="100%">
+<tr>
+
+<tr><td><p align="center"><b>INFOS SUR LE SITE</b></p></td></tr>
+<tr><td><p>&#149; Nom du site : <input name="site[0]" type="text" size="20" value="<? echo $site[0]; ?>"></p></td></tr>
+<tr><td><p>&#149; Slogan : <input name="site[1]" type="text" size="35" value="<? echo $site[1]; ?>"></p></td></tr>
+<tr><td><p>&#149; Mots-clés : <input name="site[2]" type="text" size="35" value="<? echo $site[2]; ?>"></p></td></tr>
+<tr><td><p>&#149; URL du site : <input name="site[3]" type="text" size="35" value="<? echo $site[3]; ?>"></p></td></tr>
+<tr><td><p>&#149; Nouvelles sur la page d'accueil : <input name="site[4]" type="text" size="2" value="<? echo $site[4]; ?>"></p></td></tr>
+<tr><td><p>&#149; Affichage des nouvelles de l'utilisateur : <select name="site[5]"><option value="<? echo $site[5]; ?>">Valeur actuelle</option><option value="1">Confirmation administrateur</option><option value="0">Ajout sans confirmation</option></select></p></td></tr>
+
+<tr><td><p align="center"><b>INFOS SUR LE WEBMASTER</b></p></td></tr>
+<tr><td><p>&#149; Nom du webmaster : <input name="user[0]" type="text" size="20" value="<? echo $user[0]; ?>"></p></td></tr>
+<tr><td><p>&#149; Email du webmaster : <input name="user[1]" type="text" size="20" value="<? echo $user[1]; ?>"></p></td></tr>
+<tr><td><p>&#149; n° ICQ (laisser vide si tu n'as pas de n°) : <input name="user[2]" type="text" size="15" value="<? echo $user[2]; ?>"></p></td></tr>
+
+<tr><td><p align="center"><b>NOMS DES SECTIONS</b></p></td></tr>
+<tr><td><p>&#149; Section page d'accueil : <input name="nom[0]" type="text" size="20" value="<? echo $nom[0]; ?>"></p></td></tr>
+<tr><td><p>&#149; Section downloads : <input name="nom[1]" type="text" size="20" value="<? echo $nom[1]; ?>"></p></td></tr>
+<tr><td><p>&#149; Section photos : <input name="nom[2]" type="text" size="20" value="<? echo $nom[2]; ?>"></p></td></tr>
+<tr><td><p>&#149; Section liens : <input name="nom[3]" type="text" size="20" value="<? echo $nom[3]; ?>"></p></td></tr>
+<tr><td><p>&#149; Colonne articles : <input name="nom[4]" type="text" size="20" value="<? echo $nom[4]; ?>"></p></td></tr>
+<tr><td><p>&#149; Colonne "spécial !" : <input name="nom[5]" type="text" size="20" value="<? echo $nom[5]; ?>"></p></td></tr>
+<tr><td><p>&#149; Nom du sondage : <input name="nom[6]" type="text" size="20" value="<? echo $nom[6]; ?>"></p></td></tr>
+
+
+<tr><td><p align="center"><b>PAGES</b></p></td></tr>
+<tr><td><p>&#149; Arrière-plan : <input name="page[0]" type="text" size="10" value="<? echo $page[0]; ?>"></p></td></tr>
+<tr><td><p>&#149; Fonte (genre des textes) : <select name="page[1]"><option value="<? echo $page[1]; ?>">Actuelle</option><option value="Arial, sans-serif">Arial, sans-serif</option><option value="Verdana, sans-serif">Verdana</option><option value="Time New Roman, serif">Time New Roman, serif</option></select></p></td></tr>
+<tr><td><p>&#149; Taille : <input name="page[2]" type="text" size="4" value="<? echo $page[2]; ?>"></p></td></tr>
+<tr><td><p>&#149; Bordures : <input name="bordure[0]" type="text" size="10" value="<? echo $bordure[0]; ?>"></p></td></tr>
+<tr><td><p>&#149; Image de fond :  <select name="page[3]">
+<option value="<? echo $page[3]; ?>">Image actuelle</option>
+<option value="">Pas d'image</option>
+<?
+
+for ($i = 0; $i < count($img); $i++) {
+	echo "<option value=\"".$img[$i]."\">".$img[$i]."</option>\n";}
+
+?>
+</select></tr>
+<tr><td><p>&#149; Logo :  <select name="page[4]">
+<option value="<? echo $page[4]; ?>">Image actuelle</option>
+<?
+
+for ($i = 0; $i < count($img); $i++) {
+	echo "<option value=\"".$img[$i]."\">".$img[$i]."</option>\n";}
+
+?>
+</select></tr>
+
+
+<tr><td><p align="center"><b>TITRES</b></p></td></tr>
+<tr><td><p>&#149; Couleur : <input name="titre[0]" type="text" size="10" value="<? echo $titre[0]; ?>"></p></td></tr>
+<tr><td><p>&#149; Arrière-plan : <input name="titre[1]" type="text" size="10" value="<? echo $titre[1]; ?>"></p></td></tr>
+<tr><td><p>&#149; Fonte (genre des textes) : <select name="titre[2]"><option value="<? echo $titre[2]; ?>">Actuelle</option><option value="Arial, sans-serif">Arial, sans-serif</option><option value="Verdana, sans-serif">Verdana</option><option value="Time New Roman, serif">Time New Roman, serif</option></select></p></td></tr>
+<tr><td><p>&#149; Taille : <input name="titre[3]" type="text" size="4" value="<? echo $titre[3]; ?>"></p></td></tr>
+
+<tr><td><p align="center"><b>BOITES</b></p></td></tr>
+<tr><td><p>&#149; Couleur des textes : <input name="texte[0]" type="text" size="10" value="<? echo $texte[0]; ?>"></p></td></tr>
+<tr><td><p>&#149; Arrière-plan OFF : <input name="texte[1]" type="text" size="10" value="<? echo $texte[1]; ?>"></p></td></tr>
+<tr><td><p>&#149; Arrière-plan ON : <input name="texte[2]" type="text" size="10" value="<? echo $texte[2]; ?>"></p></td></tr>
+
+<tr><td><p align="center"><b>LIENS</b></p></td></tr>
+<tr><td><p>&#149; Couleur OFF : <input name="lien[0]" type="text" size="10" value="<? echo $lien[0]; ?>"></p></td></tr>
+<tr><td><p>&#149; Couleur ON : <input name="lien[1]" type="text" size="10" value="<? echo $lien[1]; ?>"></p></td></tr>
+
+<tr><td align="center"><input type="submit" value="Enregistrer la config"></td></tr>
+
+</table>
+</form>
+
+<p align="center"><a href="admin.php">Retour admin</a> || <b><a href="admin.php?logout=1">DECONNECTION</a></b></p>
+
+<?
+
+btable();
+include("include/bpage.txt");
+
+?>

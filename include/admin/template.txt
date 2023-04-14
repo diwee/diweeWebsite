@@ -1,0 +1,22 @@
+<?
+
+include("config.php");
+include("fonctions.php");
+
+?>
+
+<p align="center"><b>Changer les options</b></p>
+
+<p align="center">Cette (énorme) page permet de modifier les couleurs, l'allure les images employées sur ce site. Il est possible de mettre des tags HTML.<br>
+<b>Attention !</b> Tout changement est irréversible !</p>
+
+<p align="center">Pour les taille de textes, mettre après le chiffre <b>px</b> pour indiquer à Netscape l'unité.</p>
+
+<p align="center"><a href="admin.php">Retour admin</a> || <b><a href="admin.php?logout=1">DECONNECTION</a></b></p>
+
+<?
+
+btable();
+include("include/bpage.txt");
+
+?>

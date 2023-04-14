@@ -1,0 +1,28 @@
+<?
+
+$titre_article = "Faire un thème";
+$date_article =  "17/01/2004 @ 19:18";
+$contenu_article = "Pour fabriquer un theme pour SmartBall, c\'est tres simple:<br />
+<br />
+<br />
+<br />
+Téléchargez une version Windows et Dreamcast:<br />
+<br />
+<br />
+<br />
+- Unzippez les fichiers dans un dossier<br />
+<br />
+- Entrez dans le dossier /data/<br />
+<br />
+- Vous avez maitenant la possiblité de :<br />
+<br />
+--> Creer vos propres thémes en utilisant des images Bmp. Seule obligation : ne pas dépasser la taille limite de 640*480 pour le background.bmp ainsi que les menus et garder la meme taille pour les raquettes.<br />
+<br />
+--> Editer les images du theme deja present.<br />
+<br />
+<br />
+<br />
+Envoyez moi vos themes les plus délirant et je sectectionnerais le meilleur pour le mettre dans la prochaine version !";
+$cat_article = "SmartBall";
+
+?>

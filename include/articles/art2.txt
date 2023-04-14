@@ -1,0 +1,15 @@
+<?
+
+$titre_article = "Make a theme";
+$date_article =  "17/01/2004 @ 10:42";
+$contenu_article = "If you want to make a SmartBall theme you have to:<br />
+<br />
+- Download a Windows Version of SmartBall<br />
+- Unzip it<br />
+- Browse /data directory<br />
+- Then you can customize the *.bmp files as you want. Don\'t forget to have the same resolution for the rackets and background and menus must be equal or less than 640*480<br />
+<br />
+Send me you creation, I\'ll keep the best for the next version";
+$cat_article = "SmartBall";
+
+?>

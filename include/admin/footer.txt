@@ -1,0 +1,42 @@
+<?
+
+include("config.php");
+include("fonctions.php");
+
+if ($rec == 1) {
+	$txt = stripSlashes($txt);
+
+	$fichier = fopen("include/foot.txt", "w");
+	fputs($fichier, $txt);
+	fclose($fichier);}
+
+$hp = liref("include/foot.txt");
+
+include("include/hpage.txt");
+htable("Admin", "100%");
+
+?>
+
+<p align="center"><b>Modifier le pied de page</b></p>
+<p align="center"><b>Attention !</b> Le saut de ligne n'est pas automatique. Pour en créer un, mettre le tag HTML &quot;&lt;br&gt;&quot;.<br>
+Ce morceau de page est orienté compteurs de stats : Hit-Parade, WEBORAMA, etc.</p>
+
+<form action="admin.php" method="GET">
+<input type="hidden" name="rec" value="1">
+<input type="hidden" name="pg" value="footer">
+<table cellspacing="0" cellpadding="0" align="center">
+
+<tr><td nowrap align="center"><p align="center"><textarea cols="45" rows="12" name="txt"><? echo $hp; ?></textarea></p></td></tr>
+<tr><td nowrap align="center"><p align="center"><input type="submit" value="Enregistrer"> <input type="Reset" value="Annuler"></p></td></tr>
+
+</table>
+</form>
+
+<p align="center"><a href="admin.php">Retour admin</a> || <b><a href="admin.php?logout=1">DECONNECTION</a></b></p>
+
+<?
+
+btable();
+include("include/bpage.txt");
+
+?>
